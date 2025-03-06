@@ -19,7 +19,7 @@ if response.status_code != 200:
 data = response.json()
 
 # --- Data Processing ---
-# Expecting data structure: data["response"]["data"] is a list of dictionaries with keys "period" and "value"
+# Expecting data structure: data["response"]["data"] is a list of dictionaries with keys ("period" and "value")
 raw_data = data["response"]["data"]
 # Extract period and value; assume period format is 'YYYY-MM-DD'
 dates_str = [entry["period"] for entry in raw_data]
@@ -47,7 +47,7 @@ def kalman_filter(zs, Q=1e-5, R=0.1**2):
     xhat[0] = zs[0]
     P[0] = 1.0
     for k in range(1, n):
-        # Prediction
+        # Prediction calcuations 
         xhat_minus = xhat[k-1]
         P_minus = P[k-1] + Q
         # Update
@@ -83,7 +83,7 @@ forecast_values = trendline_func(forecast_dates_num)
 # --- Plotting ---
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 10), sharex=True)
 
-# Top subplot: Price analysis
+# Top subplot: Price analysis & markings
 ax1.plot(dates, values, label='Original Data', marker='o', markersize=3, linestyle='-')
 ax1.plot(dates, kalman_estimates, label='Kalman Estimate', marker='x', markersize=3, linestyle='--')
 ax1.plot(dates, rolling_high, label=f'{window_size}-Day Rolling High', linestyle=':', linewidth=2)
